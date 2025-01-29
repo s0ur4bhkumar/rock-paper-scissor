@@ -16,13 +16,18 @@
     <header>Rock-papper-scissors</header>
     <div class="play-box">
         <h3>Choose</h3>
-        <div class="buttons">
+        <div class="active">
 
-            <button id="rock" onclick="getHumanChoice('rock')"><img src="images/rock.png" alt="rock"></button>
-            <button id="papper" onclick="getHumanChoice('papper')"><img src="images/paper.png" alt="papper"></button>
-            <button id="scissor" onclick="getHumanChoice('scissor')"><img src="images/scissor.png" alt="scissor"></button>
+            <div class="buttons">
+                
+                <button id="rock" onclick="getHumanChoice('rock')"><img src="images/rock.png" alt="rock"></button>
+                <button id="papper" onclick="getHumanChoice('papper')"><img src="images/papper.png" alt="papper"></button>
+                <button id="scissor" onclick="getHumanChoice('scissor')"><img src="images/scissor.png" alt="scissor"></button>
+            </div>
+            <!-- <div class="round-logs">hello</div> -->
 
         </div>
+        <button id="start" onclick="playGame()">start</button>
     </div>
     <footer>The Odin Project</footer>
 

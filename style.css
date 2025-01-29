@@ -16,6 +16,7 @@ html , body{
 img{
     width: 100px;
     height: 100px;
+    border-radius: 12px;
 }
 
 h3{
@@ -69,8 +70,40 @@ button{
 .buttons{
     display: flex;
     flex: 1;
-    width: 100%;
+    /* width: 100%; */
     justify-content: center;
     align-items: center;
     gap: 24px;
+}
+
+button{
+    border-radius: 12px;
+}
+
+#start{
+    width: 354px;
+    height: 100px;
+    font-family: 'Press Start 2p';
+    font-size: x-large;
+    background-color: white;
+}
+
+.active{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.round-logs{
+    display: flex;
+    gap: 48px;
+    padding: 24px;
+    width: 348px;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    background-color: white;
 }
