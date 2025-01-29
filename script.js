@@ -78,12 +78,12 @@ function playGame(){
             computerScoreDisplay.textContent = `Computer Score: ${computerScore}`;
    
             if (humanScore == 5){
-                alert('you won');
+                alert('you won!, refresh the page or click on your next choice to continue playing');
                 resetGame();
                 return;
             }
             else if (computerScore == 5){
-                alert('you lose');
+                alert('you lose, refresh the page or click on your next choice to continue playing');
                 resetGame();
                 return;
             }
