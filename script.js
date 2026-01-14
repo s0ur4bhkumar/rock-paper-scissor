@@ -5,17 +5,6 @@ let player1;
 let player2;
 let userScore = 0;
 let computerScore = 0;
-const startButton = document.querySelector(".start");
-const content = document.querySelector(".content");
-const gameButtons = document.createElement("div");
-gameButtons.classList.add("gameButtons");
-const rock = document.createElement("button");
-const paper = document.createElement("button");
-const scissor = document.createElement("button");
-const rockImage = document.createElement("img");
-const paperImage = document.createElement("img");
-const scissorImage = document.createElement("img");
-
 // *********************************fucntions***********************************
 
 //computer choice function
@@ -64,6 +53,37 @@ function playRound(userChoice, computerChoice) {
 }
 
 // *****************************DOM manipulation*********************************
+
+// DOM variables
+
+const startButton = document.querySelector(".start");
+const content = document.querySelector(".content");
+const gameButtons = document.createElement("div");
+const rock = document.createElement("button");
+const paper = document.createElement("button");
+const scissor = document.createElement("button");
+const scoreCard = document.createElement("div");
+
+//class names
+
+gameButtons.classList.add("gameButtons");
+rock.classList.add("rock");
+paper.classList.add("paper");
+scissor.classList.add("scissor");
+scoreCard.classList.add("scoreCard");
+
+//event listeners
+
 startButton.addEventListener("click", (e) => {
   content.removeChild(e.target);
+  content.appendChild(gameButtons);
+  gameButtons.append(rock, paper, scissor);
+  content.appendChild(scoreCard);
+});
+
+gameButtons.addEventListener("click", (e) => {
+  const choice = e.target.closest("button");
+  if (choice) {
+    console.log(choice.className);
+  }
 });
