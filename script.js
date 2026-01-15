@@ -1,10 +1,11 @@
 // **********************************variables**********************************
 
 let activePlayer;
-let player1;
-let player2;
+let player1Selection;
+let player2Selection;
 let userScore = 0;
 let computerScore = 0;
+
 // *********************************fucntions***********************************
 
 //computer choice function
@@ -22,24 +23,25 @@ function getComputerChoice() {
 
 //user choice function function
 
-function getUserChoice() {
-  return prompt("Enter your choice from ['rock','paper','scissor']:");
-}
+// function getUserChoice() {
+//   return prompt("Enter your choice from ['rock','paper','scissor']:");
+// }
 
 //switch player function
 
-function switchPlayer() {}
+// function switchPlayer() {} //for future
 
 //function to play a single round
 
-function playRound(userChoice, computerChoice) {
-  userChoice = getUserChoice();
-  computerChoice = getComputerChoice();
+function playRound() {
+  let userChoice = player1Selection;
+  let computerChoice = getComputerChoice();
   if (
     (userChoice === "rock" && computerChoice === "paper") ||
     (userChoice === "paper" && computerChoice === "scissor") ||
     (userChoice === "scissor" && computerChoice === "rock")
   ) {
+    console.log(`player: ${userChoice}, computer: ${computerChoice}`);
     return ++computerScore;
     // return `computer score:${computerScore}, human score:${userScore}`;
   } else if (
@@ -47,9 +49,27 @@ function playRound(userChoice, computerChoice) {
     (computerChoice === "paper" && userChoice === "scissor") ||
     (computerChoice === "scissor" && userChoice === "rock")
   ) {
+    console.log(`player: ${userChoice}, computer: ${computerChoice}`);
     return ++userScore;
     // return `computer score:${computerScore}, human score:${userScore}`;
   }
+}
+
+function playGame() {
+  // userScore = 0;
+  // computerScore = 0;
+  playRound();
+
+  if (userScore === 5) {
+    scoreCard.textContent = "you win";
+    scoreCard.style.justifyContent = "space-around";
+    scoreCard.style.fontSize = "40px";
+  } else if (computerScore === 5) {
+    scoreCard.textContent = "you lose";
+    scoreCard.style.justifyContent = "space-around";
+    scoreCard.style.fontSize = "40px";
+  }
+  return;
 }
 
 // *****************************DOM manipulation*********************************
@@ -63,6 +83,8 @@ const rock = document.createElement("button");
 const paper = document.createElement("button");
 const scissor = document.createElement("button");
 const scoreCard = document.createElement("div");
+const user = document.createElement("p");
+const computer = document.createElement("p");
 
 //class names
 
@@ -79,11 +101,21 @@ startButton.addEventListener("click", (e) => {
   content.appendChild(gameButtons);
   gameButtons.append(rock, paper, scissor);
   content.appendChild(scoreCard);
+  scoreCard.append(user, computer);
 });
 
 gameButtons.addEventListener("click", (e) => {
-  const choice = e.target.closest("button");
+  const choice = e.target;
   if (choice) {
-    console.log(choice.className);
+    player1Selection = choice.className;
   }
+  playGame();
+  user.textContent = `computer score: ${computerScore}`;
+  computer.textContent = `user score: ${userScore}`;
+  user.style.border = "2px solid mediumpurple";
+  user.style.borderRadius = "12px";
+  user.style.padding = "12px";
+  computer.style.border = "2px solid mediumpurple";
+  computer.style.borderRadius = "12px";
+  computer.style.padding = "12px";
 });
