@@ -63,3 +63,15 @@ const boardMarker = (function () {
   return { Mark };
 })();
 
+const getSelection = (function () {
+  const selectionX = [];
+  const selectionO = [];
+  for (let i = 0; i < gameBoard.length; i++) {
+    if (gameBoard[i] === "X") {
+      selectionX.push(i + 1);
+    } else if (gameBoard[i] === "O") {
+      selectionO.push(i + 1);
+    }
+  }
+  return [selectionX, selectionO];
+})();
