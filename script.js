@@ -28,7 +28,10 @@ const win = (function () {
     [1, 5, 9],
     [3, 5, 7],
   ];
-  const Check = (ele) => {
+  const Check = (ele = null) => {
+    if (ele === null) {
+      return false;
+    }
     return winCombinations.some((arr) => {
       if (ele.length !== arr.length) {
         return false;
@@ -41,7 +44,10 @@ const win = (function () {
       return `${player1} wins`;
     } else if (Check(player2)) {
       return `${player2} wins`;
-    } else {
+    } else if (gameBoard.every((value) => value !== "X" && value !== "O")) {
+      return false;
+    }
+    else {
       return `It's a draw`;
     }
   };
@@ -68,10 +74,23 @@ const getSelection = (function () {
   const selectionO = [];
   for (let i = 0; i < gameBoard.length; i++) {
     if (gameBoard[i] === "X") {
-      selectionX.push(i + 1);
+      selectionX.push(gameBoard[i]);
     } else if (gameBoard[i] === "O") {
-      selectionO.push(i + 1);
+      selectionO.push(gameBoard[i]);
     }
   }
   return [selectionX, selectionO];
 })();
+
+boardMarker.Mark(1, 2);
+boardMarker.Mark(3, 4);
+
+const [a, b] = getSelection;
+
+console.log(a, b);
+(function Main() {
+  while (win.result() === false) {
+    const player1 = prompt("enter your choice;");
+    const player2 = prompt("enter your choice:");
+  }
+});
