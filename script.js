@@ -1,16 +1,12 @@
 const gameBoard = (function () {
-  const Board = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ];
+  const Board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return Board;
 })();
 
 const Marker = (function () {
-  playerMarker = "X";
-  computerMarker = "O";
-  return { playerMarker, computerMarker };
+  let X = "X";
+  let O = "O";
+  return { X, O };
 })();
 
 const Choice = (function () {
@@ -53,4 +49,17 @@ const win = (function () {
   return { result };
 })();
 
+const boardMarker = (function () {
+  const Mark = function (player1Mark, player2Mark) {
+    if (
+      (gameBoard[player1Mark] || gameBoard[player2Mark]) === ("X" || "O") ||
+      (player1Mark || player2Mark) > 8
+    ) {
+      return "try different cell";
+    }
+    gameBoard[player1Mark] = Marker.X;
+    gameBoard[player2Mark] = Marker.O;
+  };
+  return { Mark };
+})();
 
