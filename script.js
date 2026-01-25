@@ -41,13 +41,13 @@ const win = (function () {
   };
   const result = function (player1, player2) {
     if (Check(player1)) {
-      return `${player1} wins`;
+      return `player1 wins`;
     } else if (Check(player2)) {
-      return `${player2} wins`;
-    } else if (gameBoard.every((value) => value !== "X" && value !== "O")) {
-      return false;
-    } else {
+      return `player2 wins`;
+    } else if (gameBoard.every((value) => value === "X" && value === "O")) {
       return `It's a draw`;
+    } else {
+      return "hell";
     }
   };
 
@@ -60,7 +60,7 @@ const boardMarker = (function () {
       (gameBoard[player1Mark] || gameBoard[player2Mark]) === ("X" || "O") ||
       (player1Mark || player2Mark) > 8
     ) {
-      return "try different cell";
+      return 'error';
     }
     gameBoard[player1Mark] = Marker.X;
     gameBoard[player2Mark] = Marker.O;
@@ -75,19 +75,38 @@ const getSelection = (function () {
     for (let i = 0; i < gameBoard.length; i++) {
       if (gameBoard[i] == "X") {
         X.push(i + 1);
-      }
-      else if (gameBoard[i] == "O") {
+      } else if (gameBoard[i] == "O") {
         O.push(i + 1);
       }
     }
-    return [X,O];
+    return [X, O];
   };
   return { selection };
 })();
 
 (function Main() {
-  while (win.result() === false) {
-    const player1 = prompt("enter your choice;");
-    const player2 = prompt("enter your choice:");
+  let resultArr = [`player1 wins`, `player2 wins`, `It's a draw`];
+  let result;
+  while (!resultArr.includes(result)) {
+    const player1 = prompt("player1 choice: ");
+    if (player1 === null || player1 === "") {
+      break;
+    }
+    const player2 = prompt("player2 choice: ");
+    boardMarker.Mark(parseInt(player1), parseInt(player2));
+    
+    if (boardMarker.Mark(parseInt(player1), parseInt(player2)) === 'error') {
+      alert('nope')
+    }
+    
+    const [a, b] = getSelection.selection();
+
+    if (a.length === 3 || b.length === 3) {
+      result = win.result(a, b);
+    } else if (!resultArr.includes(result)){
+      continue;
+    }
+    console.log(result);
+    console.log(gameBoard);
   }
-});
+})();
