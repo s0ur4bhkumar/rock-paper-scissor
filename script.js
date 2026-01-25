@@ -46,8 +46,7 @@ const win = (function () {
       return `${player2} wins`;
     } else if (gameBoard.every((value) => value !== "X" && value !== "O")) {
       return false;
-    }
-    else {
+    } else {
       return `It's a draw`;
     }
   };
@@ -70,24 +69,22 @@ const boardMarker = (function () {
 })();
 
 const getSelection = (function () {
-  const selectionX = [];
-  const selectionO = [];
-  for (let i = 0; i < gameBoard.length; i++) {
-    if (gameBoard[i] === "X") {
-      selectionX.push(gameBoard[i]);
-    } else if (gameBoard[i] === "O") {
-      selectionO.push(gameBoard[i]);
+  let selection = () => {
+    let X = [];
+    let O = [];
+    for (let i = 0; i < gameBoard.length; i++) {
+      if (gameBoard[i] == "X") {
+        X.push(i + 1);
+      }
+      else if (gameBoard[i] == "O") {
+        O.push(i + 1);
+      }
     }
-  }
-  return [selectionX, selectionO];
+    return [X,O];
+  };
+  return { selection };
 })();
 
-boardMarker.Mark(1, 2);
-boardMarker.Mark(3, 4);
-
-const [a, b] = getSelection;
-
-console.log(a, b);
 (function Main() {
   while (win.result() === false) {
     const player1 = prompt("enter your choice;");
