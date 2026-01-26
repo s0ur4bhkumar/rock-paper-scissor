@@ -25,6 +25,18 @@ const win = (function () {
     [1, 5, 9],
     [3, 5, 7],
   ];
+  let selection = () => {
+    let X = [];
+    let O = [];
+    for (let i = 0; i < gameBoard.Board.length; i++) {
+      if (gameBoard.Board[i] == "X") {
+        X.push(i + 1);
+      } else if (gameBoard.Board[i] == "O") {
+        O.push(i + 1);
+      }
+    }
+    return { X, O };
+  };
   const Check = (ele = null) => {
     if (ele === null) {
       return false;
@@ -36,19 +48,26 @@ const win = (function () {
       return arr.every((value, index) => value === ele[index]);
     });
   };
-  const result = function (player1, player2) {
-    if (Check(player1)) {
-      return `player1 wins`;
-    } else if (Check(player2)) {
-      return `player2 wins`;
-    } else {
-      if (boardFull) {
-        return `It's a draw`;
+  const result = function () {
+    let player1 = selection().X;
+    let player2 = selection().O;
+    if (player1.length === 3 || player2.length === 3) {
+      if (Check(player1)) {
+        return `player1 wins`;
+      } else if (Check(player2)) {
+        return `player2 wins`;
+      } else {
+        if (gameBoard.full()) {
+          return `It's a draw`;
+        }
       }
+    }
+    else {
+      return false;
     }
   };
 
-  return { result };
+  return { result, selection };
 })();
 
 const boardMarker = (function () {
@@ -60,36 +79,46 @@ const boardMarker = (function () {
       gameBoard.Board[markIndx] === "X" ||
       gameBoard.Board[markIndx] === "O"
     ) {
-      console.log("error");
-      return
+      return "error";
     }
     gameBoard.Board[markIndx] = mark;
   };
   return { Mark };
 })();
 
-const getSelection = (function () {
-  let selection = () => {
-    let X = [];
-    let O = [];
-    for (let i = 0; i < gameBoard.Board.length; i++) {
-      if (gameBoard.Board[i] == "X") {
-        X.push(i + 1);
-      } else if (gameBoard.Board[i] == "O") {
-        O.push(i + 1);
-      }
-    }
-    return [X, O];
+const playerSwitch = (() => {
+  const Switch = function (player1) {
+    return player1 === "X" ? "O" : "X";
   };
-  return { selection };
+  return { Switch };
 })();
 
-``
-
-(function Main() {
-  let resultArr = [`player1 wins`, `player2 wins`, `It's a draw`];
+(function game() {
+  const resultArray = [`player1 wins`, `player2 wins`, `It's a draw`];
   let result;
-  while (!resultArr.includes(result)) {
-    const player
+  let currentPlayer = "X";
+  while (!resultArray.includes(result)) {
+    let player;
+    if (currentPlayer === "X") {
+      player = prompt("Player1, enter your cellno.: ");
+    } else {
+      player = prompt("player2, enter your cell no.: ");
+    }
+    if (boardMarker.Mark(player, currentPlayer) === "error") {
+      // alert("cell already taken");
+      console.log(currentPlayer);
+      player = prompt("Cell already taken,try again");
+    }
+    if (player === "" || player === undefined) {
+      alert("no value entered");
+      break;
+    }
+    boardMarker.Mark(player, currentPlayer);
+    const [a, b] = getSelection.selection();
+    console.log(a, b);
+    result = win.result(a, b);
+    console.log(gameBoard.Board);
+    currentPlayer = playerSwitch.Switch(currentPlayer);
   }
+  alert(result);
 });
