@@ -37,16 +37,10 @@ const win = (function () {
     }
     return { X, O };
   };
-  const Check = (ele = null) => {
-    if (ele === null) {
-      return false;
-    }
-    return winCombinations.some((arr) => {
-      if (ele.length !== arr.length) {
-        return false;
-      }
-      return arr.every((value, index) => value === ele[index]);
-    });
+  const Check = (playerMoves) => {
+    return winCombinations.some((combination) =>
+      combination.every((cell) => playerMoves.includes(cell)),
+    );
   };
   const result = function () {
     let player1 = selection().X;
@@ -56,14 +50,10 @@ const win = (function () {
         return `player1 wins`;
       } else if (Check(player2)) {
         return `player2 wins`;
-      } else {
-        if (gameBoard.full()) {
-          return `It's a draw`;
-        }
       }
     }
-    else {
-      return false;
+    if (gameBoard.full()) {
+      return `It's a draw`;
     }
   };
 
@@ -114,11 +104,10 @@ const playerSwitch = (() => {
       break;
     }
     boardMarker.Mark(player, currentPlayer);
-    const [a, b] = getSelection.selection();
-    console.log(a, b);
-    result = win.result(a, b);
+    result = win.result();
+    console.log(result);
     console.log(gameBoard.Board);
     currentPlayer = playerSwitch.Switch(currentPlayer);
   }
   alert(result);
-});
+})();
