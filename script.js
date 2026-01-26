@@ -110,4 +110,5 @@ const playerSwitch = (() => {
     currentPlayer = playerSwitch.Switch(currentPlayer);
   }
   alert(result);
-})();
+});
+
