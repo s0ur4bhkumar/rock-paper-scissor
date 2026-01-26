@@ -112,3 +112,12 @@ const playerSwitch = (() => {
   alert(result);
 });
 
+(function () {
+  const container = document.querySelector('.container');
+  const cells = container.querySelectorAll('div');
+  const button = document.querySelector('button')
+  let player;
+  cells.forEach(cell => cell.addEventListener('click', (e) => {
+    player = e.target.id;
+  }))
+})()
