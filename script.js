@@ -1,12 +1,9 @@
 const gameBoard = (function () {
   const Board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  return Board;
-})();
-
-const Marker = (function () {
-  let X = "X";
-  let O = "O";
-  return { X, O };
+  const full = () => {
+    return Board.every((val) => val === "X" || val === "O");
+  };
+  return { Board, full };
 })();
 
 const Choice = (function () {
@@ -44,10 +41,10 @@ const win = (function () {
       return `player1 wins`;
     } else if (Check(player2)) {
       return `player2 wins`;
-    } else if (gameBoard.every((value) => value === "X" && value === "O")) {
-      return `It's a draw`;
     } else {
-      return "hell";
+      if (boardFull) {
+        return `It's a draw`;
+      }
     }
   };
 
@@ -55,15 +52,18 @@ const win = (function () {
 })();
 
 const boardMarker = (function () {
-  const Mark = function (player1Mark, player2Mark) {
+  const Mark = function (Indx, mark) {
+    let markIndx = Indx - 1;
     if (
-      (gameBoard[player1Mark] || gameBoard[player2Mark]) === ("X" || "O") ||
-      (player1Mark || player2Mark) > 8
+      markIndx > 8 ||
+      markIndx < 0 ||
+      gameBoard.Board[markIndx] === "X" ||
+      gameBoard.Board[markIndx] === "O"
     ) {
-      return 'error';
+      console.log("error");
+      return
     }
-    gameBoard[player1Mark] = Marker.X;
-    gameBoard[player2Mark] = Marker.O;
+    gameBoard.Board[markIndx] = mark;
   };
   return { Mark };
 })();
@@ -72,10 +72,10 @@ const getSelection = (function () {
   let selection = () => {
     let X = [];
     let O = [];
-    for (let i = 0; i < gameBoard.length; i++) {
-      if (gameBoard[i] == "X") {
+    for (let i = 0; i < gameBoard.Board.length; i++) {
+      if (gameBoard.Board[i] == "X") {
         X.push(i + 1);
-      } else if (gameBoard[i] == "O") {
+      } else if (gameBoard.Board[i] == "O") {
         O.push(i + 1);
       }
     }
@@ -84,29 +84,12 @@ const getSelection = (function () {
   return { selection };
 })();
 
+``
+
 (function Main() {
   let resultArr = [`player1 wins`, `player2 wins`, `It's a draw`];
   let result;
   while (!resultArr.includes(result)) {
-    const player1 = prompt("player1 choice: ");
-    if (player1 === null || player1 === "") {
-      break;
-    }
-    const player2 = prompt("player2 choice: ");
-    boardMarker.Mark(parseInt(player1), parseInt(player2));
-    
-    if (boardMarker.Mark(parseInt(player1), parseInt(player2)) === 'error') {
-      alert('nope')
-    }
-    
-    const [a, b] = getSelection.selection();
-
-    if (a.length === 3 || b.length === 3) {
-      result = win.result(a, b);
-    } else if (!resultArr.includes(result)){
-      continue;
-    }
-    console.log(result);
-    console.log(gameBoard);
+    const player
   }
-})();
+});
