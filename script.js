@@ -1,9 +1,16 @@
+// *******************************************gameBoard function*******************************
+
 const gameBoard = (function () {
-  const Board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const Board = ["", "", "", "", "", "", "", "", ""];
   const full = () => {
     return Board.every((val) => val === "X" || val === "O");
   };
-  return { Board, full };
+  const reset = () => {
+    for (let i = 0; i < Board.length; i++) {
+      Board[i] = "";
+    }
+  };
+  return { Board, full, reset };
 })();
 
 const Choice = (function () {
@@ -13,6 +20,8 @@ const Choice = (function () {
   };
   return { playerChoice, computerChoice };
 })();
+
+// *********************************************************win function*******************************
 
 const win = (function () {
   const winCombinations = [
@@ -29,9 +38,9 @@ const win = (function () {
     let X = [];
     let O = [];
     for (let i = 0; i < gameBoard.Board.length; i++) {
-      if (gameBoard.Board[i] == "X") {
+      if (gameBoard.Board[i] == "X" || gameBoard.Board[i] === "x") {
         X.push(i + 1);
-      } else if (gameBoard.Board[i] == "O") {
+      } else if (gameBoard.Board[i] == "O" || gameBoard.Board[i] === "o") {
         O.push(i + 1);
       }
     }
@@ -60,14 +69,16 @@ const win = (function () {
   return { result, selection };
 })();
 
+// **********************************************oard marker function*******************************
+
 const boardMarker = (function () {
   const Mark = function (Indx, mark) {
     let markIndx = Indx - 1;
     if (
       markIndx > 8 ||
       markIndx < 0 ||
-      gameBoard.Board[markIndx] === "X" ||
-      gameBoard.Board[markIndx] === "O"
+      gameBoard.Board[markIndx] !== "" ||
+      gameBoard.Board[markIndx] !== ""
     ) {
       return "error";
     }
@@ -83,41 +94,33 @@ const playerSwitch = (() => {
   return { Switch };
 })();
 
-(function game() {
-  const resultArray = [`player1 wins`, `player2 wins`, `It's a draw`];
-  let result;
-  let currentPlayer = "X";
-  while (!resultArray.includes(result)) {
-    let player;
-    if (currentPlayer === "X") {
-      player = prompt("Player1, enter your cellno.: ");
-    } else {
-      player = prompt("player2, enter your cell no.: ");
-    }
-    if (boardMarker.Mark(player, currentPlayer) === "error") {
-      // alert("cell already taken");
-      console.log(currentPlayer);
-      player = prompt("Cell already taken,try again");
-    }
-    if (player === "" || player === undefined) {
-      alert("no value entered");
-      break;
-    }
-    boardMarker.Mark(player, currentPlayer);
-    result = win.result();
-    console.log(result);
-    console.log(gameBoard.Board);
-    currentPlayer = playerSwitch.Switch(currentPlayer);
-  }
-  alert(result);
-});
+// ************************************************main game*************************************************
 
-(function () {
-  const container = document.querySelector('.container');
-  const cells = container.querySelectorAll('div');
-  const button = document.querySelector('button')
+(function game() {
+  const cells = document.querySelectorAll(".container > div");
+  const resultArr = [`player1 wins`, `player2 wins`, `It's a draw`];
+  let currentPlayer = "X";
+  let result;
   let player;
-  cells.forEach(cell => cell.addEventListener('click', (e) => {
-    player = e.target.id;
-  }))
-})()
+
+  const handleClicks = (e) => {
+    return e.target.id;
+  };
+
+  cells.forEach((cell) =>
+    cell.addEventListener("click", (e) => {
+      console.log(currentPlayer);
+      player = handleClicks(e);
+      boardMarker.Mark(player, currentPlayer);
+      result = win.result();
+      console.log(gameBoard.Board);
+      console.log(win.selection());
+      console.log(result);
+      currentPlayer = playerSwitch.Switch(currentPlayer);
+      if (resultArr.includes(result)) {
+        console.log("game finished");
+        return;
+      }
+    }),
+  );
+})();
