@@ -98,6 +98,9 @@ const playerSwitch = (() => {
 
 (function game() {
   const cells = document.querySelectorAll(".container > div");
+  const dialog = document.querySelector("dialog");
+  const restartBtn = document.querySelector(".restart");
+  const cancelBtn = document.querySelector(".cancel");
   const resultArr = [`player1 wins`, `player2 wins`, `It's a draw`];
   let currentPlayer = "X";
   let result;
@@ -107,20 +110,45 @@ const playerSwitch = (() => {
     return e.target.id;
   };
 
-  cells.forEach((cell) =>
-    cell.addEventListener("click", (e) => {
-      console.log(currentPlayer);
-      player = handleClicks(e);
-      boardMarker.Mark(player, currentPlayer);
-      result = win.result();
-      console.log(gameBoard.Board);
-      console.log(win.selection());
-      console.log(result);
-      currentPlayer = playerSwitch.Switch(currentPlayer);
-      if (resultArr.includes(result)) {
-        console.log("game finished");
-        return;
-      }
-    }),
-  );
+  restartBtn.addEventListener("click", () => {
+    gameBoard.reset();
+    boardDisplayReset();
+    currentPlayer = "X";
+    dialog.close();
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    const container = document.querySelector(".container");
+    container.textContent = "Thank you for playing";
+    dialog.close();
+  });
+
+  const boardDisplayReset = () => {
+    cells.forEach((cell) => {
+      cell.textContent = "";
+    });
+  };
+
+  function start() {
+    cells.forEach((cell) =>
+      cell.addEventListener("click", (e) => {
+        player = handleClicks(e);
+        if (boardMarker.Mark(player, currentPlayer) === "error") {
+          alert("try different cell");
+        } else {
+          boardMarker.Mark(player, currentPlayer);
+          cell.textContent = `${currentPlayer}`;
+          result = win.result();
+          currentPlayer = playerSwitch.Switch(currentPlayer);
+          if (resultArr.includes(result)) {
+            const resultEle = dialog.querySelector("p");
+            resultEle.textContent = `${result}`;
+            dialog.showModal();
+            return;
+          }
+        }
+      }),
+    );
+  }
+  start()
 })();
