@@ -119,7 +119,13 @@ const playerSwitch = (() => {
 
   cancelBtn.addEventListener("click", () => {
     const container = document.querySelector(".container");
-    container.textContent = "Thank you for playing";
+    const finalMessage = document.createElement("p");
+    finalMessage.textContent = "Thank you for playing";
+    container.innerHTML = "";
+    container.append(finalMessage);
+    container.style.display = 'flex';
+    container.style.justifyContent = "center";
+    container.style.alignItems = "center";
     dialog.close();
   });
 
@@ -150,5 +156,5 @@ const playerSwitch = (() => {
       }),
     );
   }
-  start()
+  start();
 })();

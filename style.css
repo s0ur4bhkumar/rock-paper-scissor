@@ -1,28 +1,86 @@
-html,body{
+html,
+body {
     height: 100%;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
-body{
+body {
     display: flex;
     flex-direction: column;
 }
 
-header{
+header {
     text-align: center;
-    background-color: rgb(108, 122, 137,0.3);
+    background-color: rgb(108, 122, 137, 0.3);
 }
 
-.container{
-    height: 500px;
-    width: 500px;
+.container {
+    height: 510px;
+    width: 510px;
     margin: auto;
     display: grid;
-    grid-template: repeat(3,1fr)/repeat(3,1fr);
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.start {
+    margin: auto;
+    height: 100px;
+    width: 200px;
+    font-size: 4rem;
+}
+
+dialog:open {
+    margin: auto;
+    height: 300px;
+    width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 12px;
+    border: none;
+    padding: 0.5rem;
+}
+
+p {
+    color: deepskyblue;
+    font-size: 3rem;
+    width: 100%;
+}
+
+button {
+    height: 50px;
+    width: 100px;
+    border-radius: 8px;
+    border: 2px solid mediumpurple;
+}
+
+.restart { 
+    margin-right: 1em;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(50%);
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    box-shadow:
+        0px 10px 15px rgba(108, 122, 137, 0.2),
+        0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgb(108, 122, 137, 0.3);
+    border-radius: 4px;
 }
